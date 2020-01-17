@@ -3,9 +3,10 @@
     <head>
         <title>WebVr Introduction</title>
         <Script src = "https://aframe.io/releases/1.0.3/aframe.min.js"></script>
-        <!--<script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>-->
+        <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
         <script src="js/create-cow-component.js"></script>
         <script src="js/delete-cow-component.js"></script>
+        <script src="js/pickup-object.js"></script>
     </head>
     <body>
         <!-- always need a scene to hold a-frame entitites -->
@@ -35,6 +36,9 @@
                 <a-asset-item id="methane_model"  response-type="arraybuffer" src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2Fmethane.glb?1556134081699"></a-asset-item>
                 <a-asset-item id="asteroid_model" response-type="arraybuffer" src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2Fasteroid.glb?1556134088081"></a-asset-item>
                 <a-asset-item id="helmet_model"   response-type="arraybuffer" src="assets/models/DamagedHelmet.glb"></a-asset-item>
+                <a-asset-item id="temple_model"   response-type="arraybuffer" src="assets/models/temple.glb"></a-asset-item>
+
+                <audio id="button_sound"   src="assets/sounds/ButtonClick.mp3" preload="auto" ></audio>
       
                 <!-- following images from NASA.gov -->
                 <img id="mars_img"     src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2FMarsSurface.jpg?1556142234939" crossorigin="anonymous">
@@ -44,50 +48,41 @@
               </a-assets>
 
             <!-- aframe community component-->
-            <!--<a-entity environment = "preset:starry;"></a-entity> -->
+            <a-entity environment = "preset:starry;"></a-entity> 
 
             <!-- Camera -->
-            <a-entity camera wasd-controls look-controls position = "0 1.2 0">
+            <a-entity class = "cam" look-controls camera wasd-controls position = "0 1.2 0">
                 <a-entity   cursor="rayOrigin:mouse;"
                             raycaster="far:30; interval:100; objects:.clickable;">
+                        
                 </a-entity>
+                <a-entity   class="targetDir"
+                            position="0 0 -1">
+                </a-entity>               
             </a-entity>
 
             <!-- light and see info panels-->
-            <!--<a-entity light="type:point; intensity:9" position="0 1.5 3" ></a-entity>-->
+            <a-entity light="type:point; intensity:1" position="0 4.43 -7.15" ></a-entity>
 
-            <!-- models 
-            <a-entity   id="mars_model"
-                        position ="0 3.5 6"
-                        rotation = "0 0 0"
-                        scale ="1 1 1"
-                        gltf-model="#mars_model"
-                        animation="property:rotation; to:0 360 0; loop:true; dur:4000; easing:linear"></a-entity>
-
-            <a-entity   id="methane_model"
-                        position ="0 3.5 -6"
-                        rotation = "0 0 0"
-                        scale ="1 1 1"
-                        gltf-model="#methane_model"
-                        animation="property:rotation; to:0 360 0; loop:true; dur:7000; easing:linear"></a-entity>
-
-            <a-entity   id="astroid_model"
-                        position ="-6 3.5 0"
-                        rotation = "0 0 0"
-                        scale ="0.01 0.01 0.01"
-                        gltf-model="#asteroid_model"
-                        animation="property:rotation; to:0 -360 0; loop:true; dur:3000; easing:linear"></a-entity>
-            -->
+            <!-- light and see info panels-->
+            <a-entity light="type:directional; intensity:0.4" position="0 -4.43 0" ></a-entity>
 
 
             <!-- Earth-->
             <a-entity   id = "ground_plane" 
-                        position = "0 0 0"
+                        position = "0 -0.1 0"
                         rotation = "-90 0 0"
                         scale = "1 1 1"
                         geometry = "primitive:plane; width: 30; height : 30;"
                         material = "color:#00FF00;">
             </a-entity>
+
+            <a-entity   id = "temple_object"
+                position = "0 0 0"
+                rotation = "0 0 0"
+                scale = "1 1 1"
+                gltf-model = "#temple_model"></a-entity>   
+
             <!-- Mars 
             <a-entity id="mars_infopanel" rotation = "-30 -90 0" position="4 0.5 0">
                 <a-entity   id = "mars_plane" 
@@ -108,6 +103,8 @@
                 </a-entity>
             </a-entity> -->
             <!-- Methane -->
+
+            
             <a-entity   id = "button_object" 
                         class = "clickable"
                         position = "0 0 0"
@@ -115,15 +112,20 @@
                         scale = "1 1 1"
                         geometry = "primitive:cylinder; width: 1.5; height : 1;"
                         material = "color:#FFFF00;"
-                        create-cow-component="">
+                        create-cow-component=""
+                        sound="src: #button_sound; poolSize: 10"
+                        >
             </a-entity>      
 
             <a-entity   id = "damaged_helmet"
-            position = "0 1 -2"
-            rotation = "0 0 0"
-            scale = "1 1 1"
-            gltf-model = "#helmet_model"
-            animation = "property:rotation; to:0 -359 0; loop:true; dur:3000; easing:linear"></a-entity>
+                        class = "clickable"
+                        pickup-object=""
+                        position = "0 1 -2"
+                        rotation = "0 0 0"
+                        scale = "0.5 0.5 0.5"
+                        gltf-model = "#helmet_model">
+                        <animation attribute="rotation" begin="click" repeat="indefinite" to="0 360 0"></animation>
+            </a-entity>
 
         </a-scene>      
     </body>
