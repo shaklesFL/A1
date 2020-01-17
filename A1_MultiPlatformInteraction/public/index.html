@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>WebVr Introduction</title>
+        <Script src = "https://aframe.io/releases/1.0.3/aframe.min.js"></script>
+        <!--<script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>-->
+        <script src="js/create-cow-component.js"></script>
+        <script src="js/delete-cow-component.js"></script>
+    </head>
+    <body>
+        <!-- always need a scene to hold a-frame entitites -->
+        <a-scene>
+            <!-- asset management system helps to cache resources for reuse -->
+            <a-assets timeout="10000">
+                <!-- all Earth textures from https://www.solarsystemscope.com/textures/ . slightly modified -->
+                <!-- NEW: loading in additional textures -->
+                <img id="earth_map"        src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2F2k_earth_daymap.jpg?1556125968798" crossorigin="anonymous">
+                <img id="earth_normal"     src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2FEarthNormal.png?v=1578625608473" crossorigin="anonymous">
+                <img id="earth_roughness"  src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2F2k_earth_roughness_map.jpg?1556128168667" crossorigin="anonymous">
+                <img id="earth_metalness"  src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2F2k_earth_metalness_map.jpg?1556128608140" crossorigin="anonymous">
+                <img id="earth_clouds"     src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2F2k_earth_clouds.png?1556126355573" crossorigin="anonymous">
+      
+                <!-- NEW: milky way texture from HDRlabs.com: http://www.hdrlabs.com/sibl/archive.html -->
+                <!-- using this for Erath's reflections -->
+                <img id="milky_way"      src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2FMilkyway_BG.jpg?1556127014713" crossorigin="anonymous">
+      
+                <!-- NEW: ambient "space' music from https://soundcloud.com/royaltyfreebackgroundmusic/creative-commons-music-3946 -->
+                <audio id="space_music" src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2FSpaceMusic.mp3?v=1578625245252" preload="auto" crossorigin="anonymous"></audio>
+      
+                <!-- 3D models from Sketchfab.com, and converted from .gltf to .glb using https://glb-packer.glitch.me -->
+                <!-- mars: https://sketchfab.com/3d-models/mars-2b46962637ee4311af8f0d1d0709fbb2 -->
+                <!-- methane molecule: https://sketchfab.com/3d-models/tetrahedral-structure-of-methane-6e09c1451691443cb520e8ff18bfe5c1#download -->
+                <!-- asteroid: https://sketchfab.com/3d-models/asteroid-01-df95d3da67aa4c769ec81394e0b0ffef -->
+                <a-asset-item id="mars_model"     response-type="arraybuffer" src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2Fmars.glb?1556133807353"></a-asset-item>
+                <a-asset-item id="methane_model"  response-type="arraybuffer" src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2Fmethane.glb?1556134081699"></a-asset-item>
+                <a-asset-item id="asteroid_model" response-type="arraybuffer" src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2Fasteroid.glb?1556134088081"></a-asset-item>
+                <a-asset-item id="helmet_model"   response-type="arraybuffer" src="assets/models/DamagedHelmet.glb"></a-asset-item>
+      
+                <!-- following images from NASA.gov -->
+                <img id="mars_img"     src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2FMarsSurface.jpg?1556142234939" crossorigin="anonymous">
+                <img id="methane_img"  src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2FMarsMethane.jpg?1556142233530" crossorigin="anonymous">
+                <img id="earth_img"    src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2FEarth.jpg?1556142233633" crossorigin="anonymous">
+                <img id="asteroid_img" src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2FPanspermia.jpg?1556142233666" crossorigin="anonymous">
+              </a-assets>
+
+            <!-- aframe community component-->
+            <!--<a-entity environment = "preset:starry;"></a-entity> -->
+
+            <!-- Camera -->
+            <a-entity camera wasd-controls look-controls position = "0 1.2 0">
+                <a-entity   cursor="rayOrigin:mouse;"
+                            raycaster="far:30; interval:100; objects:.clickable;">
+                </a-entity>
+            </a-entity>
+
+            <!-- light and see info panels-->
+            <!--<a-entity light="type:point; intensity:9" position="0 1.5 3" ></a-entity>-->
+
+            <!-- models 
+            <a-entity   id="mars_model"
+                        position ="0 3.5 6"
+                        rotation = "0 0 0"
+                        scale ="1 1 1"
+                        gltf-model="#mars_model"
+                        animation="property:rotation; to:0 360 0; loop:true; dur:4000; easing:linear"></a-entity>
+
+            <a-entity   id="methane_model"
+                        position ="0 3.5 -6"
+                        rotation = "0 0 0"
+                        scale ="1 1 1"
+                        gltf-model="#methane_model"
+                        animation="property:rotation; to:0 360 0; loop:true; dur:7000; easing:linear"></a-entity>
+
+            <a-entity   id="astroid_model"
+                        position ="-6 3.5 0"
+                        rotation = "0 0 0"
+                        scale ="0.01 0.01 0.01"
+                        gltf-model="#asteroid_model"
+                        animation="property:rotation; to:0 -360 0; loop:true; dur:3000; easing:linear"></a-entity>
+            -->
+
+
+            <!-- Earth-->
+            <a-entity   id = "ground_plane" 
+                        position = "0 0 0"
+                        rotation = "-90 0 0"
+                        scale = "1 1 1"
+                        geometry = "primitive:plane; width: 30; height : 30;"
+                        material = "color:#00FF00;">
+            </a-entity>
+            <!-- Mars 
+            <a-entity id="mars_infopanel" rotation = "-30 -90 0" position="4 0.5 0">
+                <a-entity   id = "mars_plane" 
+                            position = "0.65 0 0.001"
+                            rotation = "0 0 0"
+                            scale = "1 1 1"
+                            geometry = "primitive:plane; width: 1.5; height : 1;"
+                            material = "src:#mars_img;">
+                </a-entity>
+                <a-entity   geometry="primitive:plane; width:3.0; height:1.2;"
+                            material="color:#FFFFFF; shader:flat;" position = "0 0 0"></a-entity>
+                </a-entity>
+                <a-entity   position="-1.4 0.5 0.01"
+                            text="value:Mars; color:black; font:exo2bold; width:1.3; anchor:left; baseline:top; wrapCount:12;">
+                </a-entity>
+                <a-entity   position="-1.4 0.25 0.01"
+                            text="value:The fourth planet from the sun.; color:black; font:roboto; width:1.23; anchor:left; baseline:top; wrapCount:18;">
+                </a-entity>
+            </a-entity> -->
+            <!-- Methane -->
+            <a-entity   id = "button_object" 
+                        class = "clickable"
+                        position = "0 0 0"
+                        rotation = "0 0 0"
+                        scale = "1 1 1"
+                        geometry = "primitive:cylinder; width: 1.5; height : 1;"
+                        material = "color:#FFFF00;"
+                        create-cow-component="">
+            </a-entity>      
+
+            <a-entity   id = "damaged_helmet"
+            position = "0 1 -2"
+            rotation = "0 0 0"
+            scale = "1 1 1"
+            gltf-model = "#helmet_model"
+            animation = "property:rotation; to:0 -359 0; loop:true; dur:3000; easing:linear"></a-entity>
+
+        </a-scene>      
+    </body>
+</html>

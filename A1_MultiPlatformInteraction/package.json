@@ -1,0 +1,22 @@
+{
+  "name": "lesson_1",
+  "version": "1.0.0",
+  "description": "School thingy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaklesFL/Lesson_2_Aframe.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shaklesFL/Lesson_2_Aframe/issues"
+  },
+  "homepage": "https://github.com/shaklesFL/Lesson_2_Aframe#readme"
+}
