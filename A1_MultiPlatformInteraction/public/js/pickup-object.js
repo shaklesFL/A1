@@ -1,33 +1,26 @@
 AFRAME.registerComponent('pickup-object', {
     init : function(){
         console.log("init component");
-        this.x_cord = 0;
-        this.y_cord = 0;
-
-        ifMouseDown = false;
-        
-
+        ifMouseDown = false;   
+        targetPosition = new THREE.Vector3();
+        targetRotation = new THREE.Vector3();
         
         const Context_AF = this;
+        targetPosition=Context_AF.el.object3D.position;
+
         Context_AF.el.addEventListener('click', function(event){
             console.log("CLICKY");
-            document.querySelector('a-entity[sound]').components.sound.playSound();
-            Context_AF.createCow();
+            //document.querySelector('a-entity[sound]').components.sound.playSound();
+            //Context_AF.createCow();
         });
 
         Context_AF.el.addEventListener("mouseenter", function(event){
-            //el = html entity or element
-            //object3D = three.js (rendering engine) 3D element
-            Context_AF.el.object3D.scale.set(0.6,0.6,0.6);
         });
 
         Context_AF.el.addEventListener("mouseleave", function(event){
-            Context_AF.el.object3D.scale.set(0.5,0.5,0.5);
         });
 
         Context_AF.el.addEventListener("mousedown", function(event){
-            //el = html entity or element
-            //object3D = three.js (rendering engine) 3D element
             ifMouseDown=true;
         });
 
@@ -37,39 +30,38 @@ AFRAME.registerComponent('pickup-object', {
 
         Context_AF.el.addEventListener("mousemove", function(event){
             console.log("MOVING");
-            if(this.ifMouseDown)
-            {
-                var temp_x = event.clientX-this.x_cord;
-                var temp_y = event.clientY-this.y_cord;
-                if(Math.abs(temp_y)<Math.abs(temp_x))
-                {
-                    this.el.object3D.rotateY(temp_x*this.data.speed/1000);
-                }
-                else
-                {
-                    this.el.object3D.rotateX(temp_y*this.data.speed/1000);
-                }
-                this.x_cord = event.clientX;
-                this.y_cord = event.clientY;
-            }
         });
     },
     tick: function(){
 
         var position = new THREE.Vector3();
         var direction = new THREE.Vector3();
-        
+        var pos1 = new THREE.Vector3();
+        var pos2 = new THREE.Vector3();
+        var Distance = 3;
 
-        
         const Context_AF = this;
 
         if(ifMouseDown)
         {
             var Ocamera = document.querySelector('.cam');
             var Odir = document.querySelector('.targetDir');
-            position = document.querySelector('.targetDir').object3D.getWorldPosition(position);// + (document.querySelector('.targetDir').object3D.position-document.querySelector('.cam').object3D.position);
-            Context_AF.el.object3D.position.set(position.x, position.y , position.z);
+            pos1 = Ocamera.object3D.getWorldPosition(position);
+            pos2 = Odir.object3D.getWorldPosition(position);
+
+            position = pos1.clone();
+            direction.subVectors( pos2, pos1).normalize().multiplyScalar(Distance);
+            position.add(direction);
+            targetPosition=position.clone();
+            targetRotation=Ocamera.object3D.rotation.clone();
+
         }
+        Context_AF.el.object3D.position.lerp(targetPosition, 0.2);
+
+        let rot = Context_AF.el.object3D.rotation.toVector3().lerp(targetRotation, 0.15);
+        Context_AF.el.object3D.rotation.setFromVector3(rot);
+
+        //got rotation smoothing idea from https://stackoverflow.com/questions/53380400/aframe-smoothing-position-and-rotation
     },
 
     createCow : function()

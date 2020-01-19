@@ -5,7 +5,7 @@ AFRAME.registerComponent('create-cow-component', {
         const Context_AF = this;
         Context_AF.el.addEventListener('click', function(event){
             console.log("CLICKY");
-            document.querySelector('a-entity[sound]').components.sound.playSound();
+            document.querySelector("a-entity[id='button_object']").components.sound.playSound();
             Context_AF.createCow();
         });
 

@@ -4,6 +4,8 @@
         <title>WebVr Introduction</title>
         <Script src = "https://aframe.io/releases/1.0.3/aframe.min.js"></script>
         <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+        <script src="https://unpkg.com/aframe-look-at-component@0.8.x/dist/aframe-look-at-component.min.js"></script> 
+        <!--https://www.npmjs.com/package/aframe-look-at-component this allows for things to rotate towards an object-->
         <script src="js/create-cow-component.js"></script>
         <script src="js/delete-cow-component.js"></script>
         <script src="js/pickup-object.js"></script>
@@ -38,7 +40,7 @@
                 <a-asset-item id="helmet_model"   response-type="arraybuffer" src="assets/models/DamagedHelmet.glb"></a-asset-item>
                 <a-asset-item id="temple_model"   response-type="arraybuffer" src="assets/models/temple.glb"></a-asset-item>
 
-                <audio id="button_sound"   src="assets/sounds/ButtonClick.mp3" preload="auto" ></audio>
+                <audio id="button_sound"   src="assets/sounds/ButtonClick.mp3" preload="auto" crossorigin="anonymous"></audio>
       
                 <!-- following images from NASA.gov -->
                 <img id="mars_img"     src="https://cdn.glitch.com/4d85200f-900f-4f4a-b950-82c4af80c1fb%2FMarsSurface.jpg?1556142234939" crossorigin="anonymous">
@@ -57,7 +59,8 @@
                         
                 </a-entity>
                 <a-entity   class="targetDir"
-                            position="0 0 -1">
+                            position="0 0 -1"
+                            sound="src: #space_music; poolSize: 10; autoplay: true; volume: 0.25" >
                 </a-entity>               
             </a-entity>
 
@@ -124,7 +127,49 @@
                         rotation = "0 0 0"
                         scale = "0.5 0.5 0.5"
                         gltf-model = "#helmet_model">
-                        <animation attribute="rotation" begin="click" repeat="indefinite" to="0 360 0"></animation>
+            </a-entity>
+
+            <a-entity   id = "judging_head1"
+                        position = "2.5 6.3 -11.2"
+                        rotation = "0 0 0"
+                        scale = "1 1 1"
+                        gltf-model = "#mars_model"
+                        look-at="[camera]">
+            </a-entity>
+            <a-entity   id = "judging_head2"
+                        position = "6.2 6 -11.5"
+                        rotation = "0 0 0"
+                        scale = "1 1 1"
+                        gltf-model = "#mars_model"
+                        look-at="[camera]">
+            </a-entity>
+            <a-entity   id = "judging_head3"
+                        position = "6.1 6.5 4.4"
+                        rotation = "0 0 0"
+                        scale = "1 1 1"
+                        gltf-model = "#mars_model"
+                        look-at="[camera]">
+            </a-entity>
+            <a-entity   id = "judging_head4"
+                        position = "-6.1 6.3 6.9"
+                        rotation = "0 0 0"
+                        scale = "1 1 1"
+                        gltf-model = "#mars_model"
+                        look-at="[camera]">
+            </a-entity>
+            <a-entity   id = "judging_head5"
+                        position = "-1.4 9.6 -18.5"
+                        rotation = "0 0 0"
+                        scale = "1 1 1"
+                        gltf-model = "#mars_model"
+                        look-at="[camera]">
+            </a-entity>
+            <a-entity   id = "judging_head6"
+                        position = "-8.5 6.7 -11.4"
+                        rotation = "0 0 0"
+                        scale = "1 1 1"
+                        gltf-model = "#mars_model"
+                        look-at="[camera]">
             </a-entity>
 
         </a-scene>      
