@@ -41,6 +41,8 @@
                 <a-asset-item id="temple_model"   response-type="arraybuffer" src="assets/models/temple.glb"></a-asset-item>
                 <a-asset-item id="skull_model"   response-type="arraybuffer" src="assets/models/skull.glb"></a-asset-item>
                 <a-asset-item id="monster_model"   response-type="arraybuffer" src="assets/models/monster.glb"></a-asset-item>
+                <a-asset-item id="catapultBody_model"   response-type="arraybuffer" src="assets/models/catapultBody.glb"></a-asset-item>
+                <a-asset-item id="catapultArm_model"   response-type="arraybuffer" src="assets/models/catapultArm.glb"></a-asset-item>
 
                 <audio id="button_sound"   src="assets/sounds/ButtonClick.mp3" preload="auto" crossorigin="anonymous"></audio>
       
@@ -85,7 +87,7 @@
             <a-entity   id = "temple_object"
                 position = "0 0 0"
                 rotation = "0 0 0"
-                scale = "1 1 1"
+                scale = "7 7 7"
                 gltf-model = "#temple_model"></a-entity>   
 
             <!-- Mars 
@@ -118,16 +120,15 @@
                         geometry = "primitive:cylinder; width: 1.5; height : 1;"
                         material = "color:#FFFF00;"
                         create-cow-component=""
-                        sound="src: #button_sound; poolSize: 10"
-                        >
+                        sound="src: #button_sound; poolSize: 10">
             </a-entity>      
 
-            <a-entity   id = "damaged_helmet"
+            <a-entity   id = "monster_boi"
                         class = "clickable"
                         pickup-object=""
                         position = "0 1 -2"
                         rotation = "0 0 0"
-                        scale = "0.5 0.5 0.5"
+                        scale = "0.3 0.3 0.3"
                         gltf-model = "#monster_model">
             </a-entity>
 
@@ -172,6 +173,20 @@
                         scale = "1 1 1"
                         gltf-model = "#skull_model"
                         look-at="[camera]">
+            </a-entity>
+
+            <a-entity   id = "catapult_body"
+                        position = "0 0.5 0"
+                        rotation = "0 0 0"
+                        scale = "0.6 0.6 0.6"
+                        gltf-model = "#catapultBody_model">
+
+                            <a-entity   id = "catapult_arm"
+                            position = "0 0 0"
+                            rotation = "-90 0 0"
+                            scale = "1 1 1"
+                            gltf-model = "#catapultArm_model">
+            </a-entity>
             </a-entity>
 
         </a-scene>      
