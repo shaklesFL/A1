@@ -1,4 +1,9 @@
 AFRAME.registerComponent('create-cow-component', {
+
+    schema: {
+        insideBucket: {type: 'boolean', default: 'false'},
+      },
+
     init : function(){
         console.log("init component");
 
