@@ -18,28 +18,12 @@ AFRAME.registerComponent('pickup-object', {
         const Context_AF = this;
         targetPosition=Context_AF.el.object3D.position;
 
-        Context_AF.el.addEventListener('click', function(event){
-            console.log("CLICKY");
-            //document.querySelector('a-entity[sound]').components.sound.playSound();
-            //Context_AF.createCow();
-        });
-
-        Context_AF.el.addEventListener("mouseenter", function(event){
-        });
-
-        Context_AF.el.addEventListener("mouseleave", function(event){
-        });
-
         Context_AF.el.addEventListener("mousedown", function(event){
             ifMouseDown=true;
         });
 
         Context_AF.el.addEventListener("mouseup", function(event){
             ifMouseDown=false;
-        });
-
-        Context_AF.el.addEventListener("mousemove", function(event){
-            console.log("MOVING");
         });
     },
     tick: function(){
@@ -113,6 +97,7 @@ AFRAME.registerComponent('pickup-object', {
         }
         else
         {
+            targetPosition.set(Bposition.x, Bposition.y, Bposition.z);
             Context_AF.el.object3D.position.set(Bposition.x, Bposition.y, Bposition.z);
         }
 

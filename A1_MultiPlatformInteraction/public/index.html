@@ -10,6 +10,8 @@
         <script src="js/delete-cow-component.js"></script>
         <script src="js/pickup-object.js"></script>
         <script src="js/catapult-arm-control.js"></script>
+        <script src="js/target-object.js"></script>
+        <script src="js/explosion-object.js"></script>
     </head>
     <body>
         <!-- always need a scene to hold a-frame entitites -->
@@ -117,53 +119,20 @@
             <a-entity   id = "monster_boi"
                         class = "clickable"
                         pickup-object="insideBucket: false; isFlying: false"
-                        position = "0 1 -2"
+                        position = "-1.3 8.8 3.2"
                         rotation = "0 0 0"
                         scale = "0.3 0.3 0.3"
                         gltf-model = "#monster_model">
             </a-entity>
 
-            <a-entity   id = "judging_head1"
+            <a-entity   id = "target_head"
+                        class = "clickable"
                         position = "2.5 6.3 -11.2"
                         rotation = "0 0 0"
                         scale = "1 1 1"
                         gltf-model = "#skull_model"
-                        look-at="[camera]">
-            </a-entity>
-            <a-entity   id = "judging_head2"
-                        position = "6.2 6 -11.5"
-                        rotation = "0 0 0"
-                        scale = "1 1 1"
-                        gltf-model = "#skull_model"
-                        look-at="[camera]">
-            </a-entity>
-            <a-entity   id = "judging_head3"
-                        position = "6.1 6.5 4.4"
-                        rotation = "0 0 0"
-                        scale = "1 1 1"
-                        gltf-model = "#skull_model"
-                        look-at="[camera]">
-            </a-entity>
-            <a-entity   id = "judging_head4"
-                        position = "-6.1 6.3 6.9"
-                        rotation = "0 0 0"
-                        scale = "1 1 1"
-                        gltf-model = "#skull_model"
-                        look-at="[camera]">
-            </a-entity>
-            <a-entity   id = "judging_head5"
-                        position = "-1.4 9.6 -18.5"
-                        rotation = "0 0 0"
-                        scale = "1 1 1"
-                        gltf-model = "#skull_model"
-                        look-at="[camera]">
-            </a-entity>
-            <a-entity   id = "judging_head6"
-                        position = "-8.5 6.7 -11.4"
-                        rotation = "0 0 0"
-                        scale = "1 1 1"
-                        gltf-model = "#skull_model"
-                        look-at="[camera]">
+                        look-at="[camera]"
+                        target-object="">
             </a-entity>
 
             <a-entity   id = "catapult_body"
